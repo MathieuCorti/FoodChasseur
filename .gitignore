@@ -57,3 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# Webstorm
+.idea
+
+# Generated files
+*.lock
+
+# Node modules
+node_modules
