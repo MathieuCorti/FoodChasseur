@@ -1,0 +1,16 @@
+extends ../base.pug
+
+block content
+  h3 #{action} restaurant
+  form(method="POST")
+    .form-group
+      label(for="title") Title
+      input.form-control(type="text", name="title", id="title", value=restaurant.name)
+    .form-group
+      label(for="author") Author
+      input.form-control(type="text", name="author", id="author", value=restaurant.category)
+    //.form-group
+    //  label(for="description") Description
+    //  input.form-control(type="text", name="description", id="description", value=restaurant.description)
+    .form-group
+    button.btn.btn-success(type="submit") Save

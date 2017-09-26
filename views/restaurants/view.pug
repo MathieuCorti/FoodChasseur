@@ -1,0 +1,21 @@
+extends ../base.pug
+
+block content
+  h3 restaurant
+    small
+
+  .btn-group
+    a(href=`/restaurants/${restaurant.id}/edit`, class='btn btn-primary btn-sm')
+      i.glyphicon.glyphicon-edit
+      span  Edit restaurant
+    a(href=`/restaurants/${restaurant.id}/delete`, class='btn btn-danger btn-sm')
+      i.glyphicon.glyphicon-trash
+      span  Delete restaurant
+
+  .media
+    .media-body
+      h4= restaurant.name
+        | &nbsp;
+        small= restaurant.category
+      h5 By #{restaurant.contact||'unknown'}
+      p= restaurant.description

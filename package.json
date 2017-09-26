@@ -1,0 +1,23 @@
+{
+  "name": "foodchasseur",
+  "version": "1.0.0",
+  "description": "Search a specific meal in your area.",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Mathieu Corti",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/datastore": "~1.1.0",
+    "body-parser": "~1.17.1",
+    "express": "~4.15.2",
+    "pug": "2.0.0-rc.3",
+    "lodash": "~4.17.4",
+    "nconf": "~0.8.4",
+    "prompt": "~1.0.0",
+    "uglify-js": "3.0.27"
+  },
+  "engines": {
+    "node": ">=4.3.2"
+  }
+}

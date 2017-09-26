@@ -1,0 +1,4 @@
+{
+  "GCLOUD_PROJECT": "foodchasseur",
+  "DATA_BACKEND": "datastore"
+}
