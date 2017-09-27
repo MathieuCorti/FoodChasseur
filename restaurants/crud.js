@@ -2,9 +2,65 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const Vision = require('@google-cloud/vision');
+const vision = Vision();
+const config = require('../config');
+const Multer = require('multer');
+const Storage = require('@google-cloud/storage');
+const multer = Multer({
+  storage: Multer.MemoryStorage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // no larger than 5mb
+  }
+});
+
+const CLOUD_BUCKET = config.get('CLOUD_BUCKET');
+const storage = Storage({
+  projectId: CLOUD_BUCKET
+});
+const bucket = storage.bucket(CLOUD_BUCKET);
+
+
+function getPublicUrl (filename) {
+  return `https://storage.googleapis.com/${CLOUD_BUCKET}/${filename}`;
+}
 
 function getModel () {
   return require(`./model-${require('../config').get('DATA_BACKEND')}`);
+}
+
+function sendUploadToGCS (req, res, next) {
+  if (!req.file) {
+    console.log("File not here.");
+    return next();
+  } else {
+    console.log("File is here baby !");
+  }
+
+  const gcsname = /*Date.now() +*/ req.file.originalname;
+  const file = bucket.file(gcsname);
+
+  const stream = file.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype
+    }
+  });
+
+  stream.on('error', (err) => {
+    console.log("Error while uploading to bucket!");
+    req.file.cloudStorageError = err;
+    next(err);
+  });
+
+  stream.on('finish', () => {
+    req.file.cloudStorageObject = gcsname;
+    file.makePublic().then(() => {
+      req.file.cloudStoragePublicUrl = getPublicUrl(gcsname);
+      next();
+    });
+  });
+
+  stream.end(req.file.buffer);
 }
 
 const router = express.Router();
@@ -19,7 +75,7 @@ router.use((req, res, next) => {
 });
 
 /**
- * GET /restaurants/add
+ * GET /restaurants
  *
  * Display a page of restaurants (up to ten at a time).
  */
@@ -57,12 +113,34 @@ router.get('/add', (req, res) => {
  * Create a restaurant.
  */
 // [START add_post]
-router.post('/add', (req, res, next) => {
+router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) => {
   const data = req.body;
+
+  console.log("Url : [" + req.file.cloudStoragePublicUrl + "].");
+  if (req.file && req.file.cloudStoragePublicUrl) {
+
+    const gcsPath = `gs://${CLOUD_BUCKET}/${req.file.originalname}`;
+    console.log("GcsPath Path : [" + gcsPath + "].");
+    console.log("Public Path  : [" + req.file.cloudStoragePublicUrl + "].");
+
+    // Send the image to the Cloud Vision API
+    vision.textDetection({ source: { imageUri: gcsPath } })
+      .then((results) => {
+        const detections = results[0].fullTextAnnotation;
+        console.log('Text:' + detections.text);
+        console.log("DONE WITH IT !");
+      })
+      .catch((err) => {
+        console.error('ERROR:', err);
+      });
+  } else {
+    console.log("Failed !");
+  }
 
   // Save the data to the database.
   getModel().create(data, (err, savedData) => {
     if (err) {
+      console.log("Error : " + err);
       next(err);
       return;
     }
