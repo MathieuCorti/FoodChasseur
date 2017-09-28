@@ -1,20 +1,26 @@
 doctype html
 html(lang="en")
   head
-    title restaurant - Node.js on Google Cloud Platform
+    title Food Chasseur
     meta(charset='utf-8')
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css")
     link(rel="stylesheet", href="styles/style.css")
   body
-    .navbar.navbar-default
-      .container
-        .navbar-header
-          .navbar-brand restaurant
+    #header
+        font(color="#00AAA0", size="40") Food Hunter
+        a(href="/restaurants/add", class='button1') Register My Restaurant
 
-        ul.nav.navbar-nav
-          li
-            a(href="/restaurant") restaurant
+    #sidebar
+        form
+            input(type="text1" name="food" placeholder="Choice of food")
+            |
+            br
+            br
+            input(type="text2" name="location" placeholder="Choice of location")
+            |
+            br
+            br
+            input.button2(type='button', value='SEARCH')
 
-    .container
-      block content
+    block content

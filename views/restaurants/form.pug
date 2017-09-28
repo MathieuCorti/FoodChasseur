@@ -1,16 +1,48 @@
-extends ../base.pug
-
-block content
-  h3 #{action} restaurant
-  form(method="POST")
-    .form-group
-      label(for="title") Title
-      input.form-control(type="text", name="title", id="title", value=restaurant.name)
-    .form-group
-      label(for="author") Author
-      input.form-control(type="text", name="author", id="author", value=restaurant.category)
-    //.form-group
-    //  label(for="description") Description
-    //  input.form-control(type="text", name="description", id="description", value=restaurant.description)
-    .form-group
-    button.btn.btn-success(type="submit") Save
+doctype html
+html(lang="en")
+  head
+    title Register
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css", href="/styles/style.css")
+  body
+    #header
+        font(color="#00AAA0", size="40") Food Hunter
+        a(href="/restaurants", class='button1') Main Menu
+    #formcontent
+        .class2
+            .class
+                block content
+                  br
+                  h3
+                    strong
+                        u Register My Restaurant
+                  br
+                  form(method="POST")
+                    .form-group
+                      label(for="restname") Restaurant Name
+                          div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", style="width:350px;height:30px;", name="restname", id="restname", value=restaurant.name)
+                    .form-group
+                      label(for="restcategory") Restaurant Category
+                          div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", style="width:350px;height:30px;", name="restcategory", id="restcategory", value=restaurant.category)
+                    .form-group
+                      label(for="restaddress") Restaurant Address
+                         div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", placeholder="Lot/Shop number", style="width:350px;height:30px;", name="lotno", id="lotno", value=restaurant.lotnumber)
+                            br
+                            input.form-control(type="text", placeholder="Street name", style="width:350px;height:30px;", name="streetname", id="streetname", value=restaurant.streetname)
+                            br
+                            input.form-control(type="text", placeholder="City", style="width:350px;height:30px;", name="city", id="city", value=restaurant.city)
+                            br
+                            input.form-control(type="text", placeholder="State", style="width:350px;height:30px;", name="state", id="state", value=restaurant.state)
+                            br
+                            input.form-control(type="text", placeholder="Postcode", style="width:350px;height:30px;", name="postcode", id="postcode", value=restaurant.postcode)
+                    .form-group
+                      label(for="resttelno") Restaurant Telephone Number
+                         div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", style="width:350px;height:30px;", name="resttelno", id="resttelno", value=restaurant.telephonenumber)
+                    .form-group
+                    button.button3(type="submit") REGISTER

@@ -1,24 +1,29 @@
 extends ../base.pug
 
 block content
-  h3 restaurants
+    div
+        table
+            thead
+                tr: th Restaurant Name
+                    th Restaurant Category
+                    th Restaurant Address
+                    th Restaurant Telephone Number
+            tbody
+                each restaurant in restaurants
+                    tr
+                        td
+                            .media
+                                a(href=`/restaurants/${restaurant.id}`)
+                                    .media-body
+                                        h5= restaurant.name
+                        td
+                            p= restaurant.category
 
-  a(href="/restaurants/add", class='btn btn-success btn-sm')
-    i.glyphicon.glyphicon-plus
-    span  Add restaurant
+                if !restaurants.length
+                  p No restaurants found.
 
-  each restaurant in restaurants
-    .media
-      a(href=`/restaurants/${restaurant.id}`)
-        .media-body
-          h4= restaurant.name
-          p= restaurant.category
-
-  if !restaurants.length
-    p No restaurants found.
-
-  if nextPageToken
-    nav
-      ul.pager
-        li
-          a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) More
+                if nextPageToken
+                  nav
+                    ul.pager
+                      li
+                        a(href=`?pageToken=${encodeURIComponent(nextPageToken)}`) More
