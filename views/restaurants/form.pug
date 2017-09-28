@@ -41,6 +41,14 @@ html(lang="en")
                             br
                             input.form-control(type="text", placeholder="Postcode", style="width:350px;height:30px;", name="postcode", id="postcode", value=restaurant.postcode)
                     .form-group
+                      label(for="image") Menu Image
+                             div(class="col-lg-4 col-lg-offset-4")
+                                input.form-control(type="file",  style="width:350px;height:40px;", name="image", id="image")
+                    .form-group.hidden
+                      label(for="imageUrl") Menu Image URL
+                             div(class="col-lg-4 col-lg-offset-4")
+                                input.form-control(type="text",  style="width:350px;height:30px;", name="imageUrl", id="imageUrl", value=restaurant.imageUrl)
+                    .form-group
                       label(for="resttelno") Restaurant Telephone Number
                          div(class="col-lg-4 col-lg-offset-4")
                             input.form-control(type="text", style="width:350px;height:30px;", name="resttelno", id="resttelno", value=restaurant.telephonenumber)
