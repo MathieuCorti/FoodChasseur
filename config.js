@@ -12,6 +12,7 @@ nconf
   .env([
     'DATA_BACKEND',
     'GCLOUD_PROJECT',
+    'CLOUD_BUCKET',
     'PORT'
   ])
 
@@ -22,11 +23,13 @@ nconf
   .defaults({
     DATA_BACKEND: 'datastore',
     GCLOUD_PROJECT: 'foodchasseur',
+    CLOUD_BUCKET: 'food_chasseur_menus',
     PORT: 8080
   });
 
 // Check for required settings
 checkConfig('GCLOUD_PROJECT');
+checkConfig('CLOUD_BUCKET');
 
 function checkConfig (setting) {
   if (!nconf.get(setting)) {
