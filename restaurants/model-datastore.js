@@ -5,8 +5,10 @@ const config = require('../config');
 
 // Config
 const ds = Datastore({
+  //projectId: config.get('cloudcomputingserver1')
   projectId: config.get('GCLOUD_PROJECT')
 });
+//const kind = 'Restaurants';
 const kind = 'Restaurant';
 
 // Translates from Datastore's entity format to app format
@@ -62,7 +64,6 @@ function toDatastore (obj, nonIndexed) {
 function list (limit, token, cb) {
   const q = ds.createQuery([kind])
     .limit(limit)
-    .order('category')
     .start(token);
 
   ds.runQuery(q, (err, entities, nextQuery) => {

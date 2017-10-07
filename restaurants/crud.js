@@ -24,6 +24,7 @@ router.use((req, res, next) => {
  * Display a page of restaurants (up to ten at a time).
  */
 router.get('/', (req, res, next) => {
+console.log("IT WORKED!!!")
   getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
     if (err) {
       next(err);

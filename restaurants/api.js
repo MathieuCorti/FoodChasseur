@@ -57,7 +57,7 @@ router.get('/:restaurant', (req, res, next) => {
       return;
     }
     res.json(entity);
-  });
+    });
 });
 
 /**

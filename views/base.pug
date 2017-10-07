@@ -12,7 +12,7 @@ html(lang="en")
         a(href="/restaurants/add", class='button1') Register My Restaurant
 
     #sidebar
-        form
+        form(action='/restaurants/add', method='get')
             input(type="text1" name="food" placeholder="Choice of food")
             |
             br

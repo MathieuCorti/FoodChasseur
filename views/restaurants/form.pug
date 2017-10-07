@@ -19,27 +19,28 @@ html(lang="en")
                     strong
                         u Register My Restaurant
                   br
+                  h3 #{action} restaurant
                   form(method="POST")
                     .form-group
                       label(for="restname") Restaurant Name
                           div(class="col-lg-4 col-lg-offset-4")
-                            input.form-control(type="text", style="width:350px;height:30px;", name="restname", id="restname", value=restaurant.name)
+                            input.form-control(type="text", style="width:350px;height:30px;", name="restname", id="restname", value=restaurant.name, required)
                     .form-group
                       label(for="restcategory") Restaurant Category
                           div(class="col-lg-4 col-lg-offset-4")
-                            input.form-control(type="text", style="width:350px;height:30px;", name="restcategory", id="restcategory", value=restaurant.category)
+                            input.form-control(type="text", style="width:350px;height:30px;", name="restcategory", id="restcategory", value=restaurant.category, required)
                     .form-group
                       label(for="restaddress") Restaurant Address
                          div(class="col-lg-4 col-lg-offset-4")
-                            input.form-control(type="text", placeholder="Lot/Shop number", style="width:350px;height:30px;", name="lotno", id="lotno", value=restaurant.lotnumber)
+                            input.form-control(type="text", placeholder="Lot/Shop number", style="width:350px;height:30px;", name="lotno", id="lotno", value=restaurant.lotnumber, required)
                             br
-                            input.form-control(type="text", placeholder="Street name", style="width:350px;height:30px;", name="streetname", id="streetname", value=restaurant.streetname)
+                            input.form-control(type="text", placeholder="Street name", style="width:350px;height:30px;", name="streetname", id="streetname", value=restaurant.streetname, required)
                             br
-                            input.form-control(type="text", placeholder="City", style="width:350px;height:30px;", name="city", id="city", value=restaurant.city)
+                            input.form-control(type="text", placeholder="City", style="width:350px;height:30px;", name="city", id="city", value=restaurant.city, required)
                             br
-                            input.form-control(type="text", placeholder="State", style="width:350px;height:30px;", name="state", id="state", value=restaurant.state)
+                            input.form-control(type="text", placeholder="State", style="width:350px;height:30px;", name="state", id="state", value=restaurant.state, required)
                             br
-                            input.form-control(type="text", placeholder="Postcode", style="width:350px;height:30px;", name="postcode", id="postcode", value=restaurant.postcode)
+                            input.form-control(type="text", placeholder="Postcode", style="width:350px;height:30px;", name="postcode", id="postcode", value=restaurant.postcode, required)
                     .form-group
                       label(for="image") Menu Image
                              div(class="col-lg-4 col-lg-offset-4")
@@ -51,6 +52,6 @@ html(lang="en")
                     .form-group
                       label(for="resttelno") Restaurant Telephone Number
                          div(class="col-lg-4 col-lg-offset-4")
-                            input.form-control(type="text", style="width:350px;height:30px;", name="resttelno", id="resttelno", value=restaurant.telephonenumber)
+                            input.form-control(type="text", style="width:350px;height:30px;", name="resttelno", id="resttelno", value=restaurant.telephonenumber, required)
                     .form-group
                     button.button3(type="submit") REGISTER
