@@ -10,17 +10,13 @@ html(lang="en")
     #header
         font(color="#00AAA0", size="40") Food Hunter
         a(href="/restaurants/add", class='button1') Register My Restaurant
-
     #sidebar
-        form(action='/restaurants/add', method='get')
-            input(type="text1" name="food" placeholder="Choice of food")
-            |
-            br
-            br
-            input(type="text2" name="location" placeholder="Choice of location")
-            |
-            br
-            br
-            input.button2(type='button', value='SEARCH')
+        form(action="/restaurants/list" method="GET" autocomplete="off")
+            .form-group
+                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice of Food", required)
+            .form-group
+                input.form-control(type="text2", name="usrfoodlocation", id="usrfoodlocation", placeholder="Choice of Location", required)
+            .form-group
+                button.button2(type="submit") SEARCH
 
     block content

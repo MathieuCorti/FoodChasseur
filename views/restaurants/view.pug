@@ -13,9 +13,8 @@ html(lang="en")
     #sidebar
         .media
             .media-body
-                h2= restaurant.name
-                p= restaurant.category
-                h5 By #{restaurant.contact||'unknown'}
+                h2= restaurant.restname
+                p= restaurant.restcategory
                 p= restaurant.description
         .btn-group
             a(href=`/restaurants/${restaurant.id}/edit`, class='btn btn-primary btn-sm')
@@ -27,4 +26,4 @@ html(lang="en")
                 span  Delete restaurant
     #content
         h3 Menu:
-        img(src="https://megame73.files.wordpress.com/2012/11/menupro-restaurant-menu-design-samples-printed-menus-mozilla-firefox_2012-11-21_23-23-31.png", alt="Menu", style="width:304px;height:228px;")
+        img(src="restaurant.image", alt="Menu")

@@ -63,6 +63,7 @@ function toDatastore (obj, nonIndexed) {
 // [START list]
 function list (limit, token, cb) {
   const q = ds.createQuery([kind])
+    .filter('restcategory', '=', 'Western')
     .limit(limit)
     .start(token);
 

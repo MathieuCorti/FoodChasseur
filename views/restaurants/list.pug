@@ -1,6 +1,23 @@
-extends ../base.pug
-
-block content
+doctype html
+html(lang="en")
+  head
+    title Register
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css", href="/styles/style.css")
+  body
+    #header
+      font(color="#00AAA0", size="40") Food Hunter
+      a(href="/restaurants/add", class='button1') Register My Restaurant
+    #sidebar
+        form(action="/restaurants/list" method="GET" autocomplete="off")
+            .form-group
+                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice of Food", required)
+            .form-group
+                input.form-control(type="text2", name="usrfoodlocation", id="usrfoodlocation", placeholder="Choice of Location", required)
+            .form-group
+                button.button2(type="submit") SEARCH
     div
         table
             thead
@@ -8,6 +25,7 @@ block content
                     th Restaurant Category
                     th Restaurant Address
                     th Restaurant Telephone Number
+                    th Guide Me There Now
             tbody
                 each restaurant in restaurants
                     tr
@@ -15,13 +33,17 @@ block content
                             .media
                                 a(href=`/restaurants/${restaurant.id}`)
                                     .media-body
-                                        h5= restaurant.name
+                                        h5= restaurant.restname
                         td
-                            p= restaurant.category
+                            p= restaurant.restcategory
                         td
-                            
+                            p= restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
                         td
-                            p= restaurant.telephonenumber
+                            p= restaurant.resttelno
+                        td
+                            #divimg
+                                a(href="http://maps.google.com/?saddr=Current+Location&daddr=" + restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode)
+                                    img(src="http://logonoid.com/images/google-maps-logo.png", style="width:60px;height:50px;")
 
                 if !restaurants.length
                   p No restaurants found.

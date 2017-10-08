@@ -80,19 +80,36 @@ router.use((req, res, next) => {
  * Display a page of restaurants (up to ten at a time).
  */
 router.get('/', (req, res, next) => {
-console.log("IT WORKED!!!")
-  getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    console.log("Number of restaurants on render : " + entities.length);
-    res.render('restaurants/list.pug', {
-      restaurants: entities,
-      nextPageToken: cursor
-    });
-  });
+ getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
+ if (err) {
+   next(err);
+   return;
+ }
+ console.log("Number of restaurants on render : " + entities.length);
+ res.render('base.pug');
+ });
 });
+
+/**
+ * GET /restaurants/list
+ *
+ * Display a form for creating a restaurant.
+ */
+// [START add_get]
+router.get('/list', (req, res) => {
+ getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
+  if (err) {
+    next(err);
+    return;
+  }
+  console.log("Number of restaurants on render : " + entities.length);
+  res.render('restaurants/list.pug', {
+    restaurants: entities,
+    nextPageToken: cursor
+  });
+ });
+});
+// [END add_get]
 
 /**
  * GET /restaurants/add
@@ -117,7 +134,7 @@ router.get('/add', (req, res) => {
 router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) => {
   const data = req.body;
 
-  console.log("Url : [" + req.file.cloudStoragePublicUrl + "].");
+  //console.log("Url : [" + req.file.cloudStoragePublicUrl + "].");
   if (req.file && req.file.cloudStoragePublicUrl) {
 
     const gcsPath = `gs://${CLOUD_BUCKET}/${req.file.originalname}`;
