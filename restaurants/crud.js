@@ -138,15 +138,15 @@ router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) =
   if (req.file && req.file.cloudStoragePublicUrl) {
 
     const gcsPath = `gs://${CLOUD_BUCKET}/${req.file.originalname}`;
-    console.log("GcsPath Path : [" + gcsPath + "].");
     console.log("Public Path  : [" + req.file.cloudStoragePublicUrl + "].");
+
+    // console.log("Lot number : " + req.body.restaurant.lotnumber);
 
     // Send the image to the Cloud Vision API
     vision.textDetection({ source: { imageUri: gcsPath } })
       .then((results) => {
         const detections = results[0].fullTextAnnotation;
         console.log('Text:' + detections.text);
-        console.log("DONE WITH IT !");
       })
       .catch((err) => {
         console.error('ERROR:', err);
