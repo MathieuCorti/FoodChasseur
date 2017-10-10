@@ -14,6 +14,7 @@ const multer = Multer({
     fileSize: 5 * 1024 * 1024 // no larger than 5mb
   }
 });
+var tempstorage;
 
 const CLOUD_BUCKET = config.get('CLOUD_BUCKET');
 const storage = Storage({
@@ -89,11 +90,31 @@ router.get('/', (req, res, next) => {
  * Display a form for creating a restaurant.
  */
 router.get('/list', (req, res) => {
- console.log("Food choice : " + req.url);
+ tempstorage = (req.url);
  var q = url.parse(req.url, true);
- console.log("Food choice : " + q.search);
  var qdata = q.query;
- console.log("Food Query : " + qdata.usrfoodchoice);
+ getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
+  if (err) {
+    next(err);
+    return;
+  }
+  console.log("Number of restaurants on render : " + entities.length);
+  res.render('restaurants/list.pug', {
+    restaurants: entities,
+    nextPageToken: cursor
+  });
+ });
+});
+
+/**
+ * GET /restaurants/list2
+ *
+ * Display a form for creating a restaurant.
+ */
+router.get('/restaurants/' + tempstorage, (req, res) => {
+ tempstorage = (req.url);
+ var q = url.parse(req.url, true);
+ var qdata = q.query;
  getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
   if (err) {
     next(err);

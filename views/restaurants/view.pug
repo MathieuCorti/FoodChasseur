@@ -9,13 +9,20 @@ html(lang="en")
   body
     #header
         font(color="#00AAA0", size="40") Food Hunter
-        a(href="/restaurants", class='button1') Main Menu
+        a(href="/restaurants/tempstorage", class='button1') Main Menu
     #sidebar
         .media
             .media-body
-                h2= restaurant.restname
+                h2
+                    u= restaurant.restname
+                br
+                h4 Category
                 p= restaurant.restcategory
+                br
+                h4 Address
                 p= restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
+                br
+                h4 Telephone number
                 p= restaurant.resttelno
         .btn-group
             a(href=`/restaurants/${restaurant.id}/edit`, class='btn btn-primary btn-sm')
@@ -27,4 +34,4 @@ html(lang="en")
                 span  Delete restaurant
     #content
         h3 Menu:
-        img(src="restaurant.image", alt="Menu")
+        img(src=restaurant.imageUrl, alt="Menu")
