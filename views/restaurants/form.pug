@@ -52,17 +52,17 @@ html(lang="en")
                       label(for="image") Menu Image
                              div(class="col-lg-4 col-lg-offset-4")
                                 input.form-control(type="file",  style="width:350px;height:40px;", name="image", id="image")
-                    .form-group.hidden
+                    .form-group(style="display: none !important; visibility: hidden !important;")
                       label(for="imageUrl") Menu Image URL
                              div(class="col-lg-4 col-lg-offset-4")
                                 input.form-control(type="text",  style="width:350px;height:30px;", name="imageUrl", id="imageUrl", value=restaurant.imageUrl)
+                    .form-group(style="display: none !important; visibility: hidden !important;")
+                      label(for="menu") menu
+                             div(class="col-lg-4 col-lg-offset-4")
+                                input.form-control(type="text",  style="width:350px;height:30px;", name="menu", id="menu", value=restaurant.menu)
                     .form-group
                       label(for="resttelno") Restaurant Telephone Number
                          div(class="col-lg-4 col-lg-offset-4")
                             input.form-control(type="text", style="width:350px;height:30px;", name="resttelno", id="resttelno", value=restaurant.telephonenumber, required)
-                    .form-group
-                      label(for="restbestchoices") Restaurant Best Food
-                         div(class="col-lg-4 col-lg-offset-4")
-                            input.form-control(type="text", placeholder="Please choose the top 3 dishes", style="width:350px;height:70px;", name="restbestchoices", id="restbestchoices", value=restaurant.bestchoices, required)
                     .form-group
                         button.button3(type="submit") REGISTER

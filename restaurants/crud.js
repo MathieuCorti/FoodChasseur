@@ -1,5 +1,6 @@
 'use strict';
 
+const url = require('url');
 const express = require('express');
 const bodyParser = require('body-parser');
 const Vision = require('@google-cloud/vision');
@@ -80,15 +81,9 @@ router.use((req, res, next) => {
  * Display a page of restaurants (up to ten at a time).
  */
 router.get('/', (req, res, next) => {
- getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
- if (err) {
-   next(err);
-   return;
- }
- console.log("Number of restaurants on render : " + entities.length);
  res.render('base.pug');
  });
-});
+//});
 
 /**
  * GET /restaurants/list
@@ -97,7 +92,12 @@ router.get('/', (req, res, next) => {
  */
 // [START add_get]
 router.get('/list', (req, res) => {
- getModel().list(10, req.query.pageToken, (err, entities, cursor) => {
+ console.log("Food choice : " + req.url);
+ var q = url.parse(req.url, true);
+ console.log("Food choice : " + q.search);
+ var qdata = q.query;
+ console.log("Food Query : " + qdata.usrfoodchoice);
+ getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
   if (err) {
     next(err);
     return;
