@@ -34,8 +34,6 @@ function sendUploadToGCS (req, res, next) {
   if (!req.file) {
     console.log("File not here.");
     return next();
-  } else {
-    console.log("File is here baby !");
   }
 
   const gcsname = /*Date.now() +*/ req.file.originalname;
@@ -90,7 +88,6 @@ router.get('/', (req, res, next) => {
  *
  * Display a form for creating a restaurant.
  */
-// [START add_get]
 router.get('/list', (req, res) => {
  console.log("Food choice : " + req.url);
  var q = url.parse(req.url, true);
@@ -109,44 +106,49 @@ router.get('/list', (req, res) => {
   });
  });
 });
-// [END add_get]
 
 /**
  * GET /restaurants/add
  *
  * Display a form for creating a restaurant.
  */
-// [START add_get]
 router.get('/add', (req, res) => {
   res.render('restaurants/form.pug', {
     restaurant: {},
     action: 'Add'
   });
 });
-// [END add_get]
 
 /**
  * POST /restaurants/add
  *
  * Create a restaurant.
  */
-// [START add_post]
 router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) => {
   const data = req.body;
 
-  //console.log("Url : [" + req.file.cloudStoragePublicUrl + "].");
   if (req.file && req.file.cloudStoragePublicUrl) {
 
     const gcsPath = `gs://${CLOUD_BUCKET}/${req.file.originalname}`;
-    console.log("Public Path  : [" + req.file.cloudStoragePublicUrl + "].");
 
-    // console.log("Lot number : " + req.body.restaurant.lotnumber);
+    // Set the image url
+    data.imageUrl = req.file.cloudStoragePublicUrl;
 
     // Send the image to the Cloud Vision API
     vision.textDetection({ source: { imageUri: gcsPath } })
       .then((results) => {
         const detections = results[0].fullTextAnnotation;
-        console.log('Text:' + detections.text);
+//        data.menu = detections.text;
+
+        // Save the data to the database.
+        getModel().create(data, (err, savedData) => {
+          if (err) {
+            console.log("Error : " + err);
+            next(err);
+            return;
+          }
+          res.redirect(`${req.baseUrl}/${savedData.id}`);
+        });
       })
       .catch((err) => {
         console.error('ERROR:', err);
@@ -154,18 +156,7 @@ router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) =
   } else {
     console.log("Failed !");
   }
-
-  // Save the data to the database.
-  getModel().create(data, (err, savedData) => {
-    if (err) {
-      console.log("Error : " + err);
-      next(err);
-      return;
-    }
-    res.redirect(`${req.baseUrl}/${savedData.id}`);
-  });
 });
-// [END add_post]
 
 /**
  * GET /restaurants/:id/edit
