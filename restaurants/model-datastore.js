@@ -62,8 +62,6 @@ function toDatastore (obj, nonIndexed) {
 // pages. The callback is invoked with ``(err, restaurants, nextPageToken)``.
 // [START list]
 function list (limit, token, data, cb) {
-    //console.log("URL : " + url);
-    console.log("Food Query1 : " + data);
   const q = ds.createQuery([kind])
     .filter('restcategory', '=', data)
     .limit(limit)

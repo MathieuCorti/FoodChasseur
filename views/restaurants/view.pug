@@ -15,7 +15,8 @@ html(lang="en")
             .media-body
                 h2= restaurant.restname
                 p= restaurant.restcategory
-                p= restaurant.description
+                p= restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
+                p= restaurant.resttelno
         .btn-group
             a(href=`/restaurants/${restaurant.id}/edit`, class='btn btn-primary btn-sm')
                 i.glyphicon.glyphicon-edit

@@ -169,7 +169,7 @@ router.get('/:restaurant/edit', (req, res, next) => {
       next(err);
       return;
     }
-    res.render('restaurants/form.pug', {
+    res.render('restaurants/editform.pug', {
       restaurant: entity,
       action: 'Edit'
     });
