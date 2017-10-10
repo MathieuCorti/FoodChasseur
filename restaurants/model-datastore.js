@@ -61,9 +61,11 @@ function toDatastore (obj, nonIndexed) {
 // return per page. The ``token`` argument allows requesting additional
 // pages. The callback is invoked with ``(err, restaurants, nextPageToken)``.
 // [START list]
-function list (limit, token, cb) {
+function list (limit, token, data, cb) {
+    //console.log("URL : " + url);
+    console.log("Food Query1 : " + data);
   const q = ds.createQuery([kind])
-    .filter('restcategory', '=', 'Western')
+    .filter('restcategory', '=', data)
     .limit(limit)
     .start(token);
 
