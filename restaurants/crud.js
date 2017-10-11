@@ -14,7 +14,6 @@ const multer = Multer({
     fileSize: 5 * 1024 * 1024 // no larger than 5mb
   }
 });
-var tempstorage;
 
 const CLOUD_BUCKET = config.get('CLOUD_BUCKET');
 const storage = Storage({
@@ -37,7 +36,7 @@ function sendUploadToGCS (req, res, next) {
     return next();
   }
 
-  const gcsname = /*Date.now() +*/ req.file.originalname;
+  const gcsname = req.file.originalname;
   const file = bucket.file(gcsname);
 
   const stream = file.createWriteStream({
@@ -90,32 +89,9 @@ router.get('/', (req, res, next) => {
  * Display a form for creating a restaurant.
  */
 router.get('/list', (req, res) => {
- tempstorage = (req.url);
  var q = url.parse(req.url, true);
  var qdata = q.query;
- getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
-  if (err) {
-    next(err);
-    return;
-  }
-  console.log("Number of restaurants on render : " + entities.length);
-  res.render('restaurants/list.pug', {
-    restaurants: entities,
-    nextPageToken: cursor
-  });
- });
-});
-
-/**
- * GET /restaurants/list2
- *
- * Display a form for creating a restaurant.
- */
-router.get('/restaurants/' + tempstorage, (req, res) => {
- tempstorage = (req.url);
- var q = url.parse(req.url, true);
- var qdata = q.query;
- getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
+ getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, qdata.usrfoodlocation, (err, entities, cursor) => {
   if (err) {
     next(err);
     return;
@@ -145,7 +121,7 @@ router.get('/add', (req, res) => {
  *
  * Create a restaurant.
  */
-router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) => {
+router.post('/add', multer.single('image'), sendUploadToGCS, (req, res, next) => {
   const data = req.body;
 
   if (req.file && req.file.cloudStoragePublicUrl) {
@@ -176,7 +152,7 @@ router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) =
       });
   } else {
     console.log("Failed !");
-  }
+}
 });
 
 /**
@@ -190,7 +166,7 @@ router.get('/:restaurant/edit', (req, res, next) => {
       next(err);
       return;
     }
-    res.render('restaurants/editform.pug', {
+    res.render('restaurants/form.pug', {
       restaurant: entity,
       action: 'Edit'
     });
