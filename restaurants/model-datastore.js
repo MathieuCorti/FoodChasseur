@@ -45,7 +45,7 @@ function toDatastore (obj, nonIndexed) {
   const results = [];
   Object.keys(obj).forEach((k) => {
     if (obj[k] === undefined) {
-      return;
+      return
     }
     results.push({
       name: k,
@@ -94,7 +94,7 @@ function update (id, data, cb) {
 
   const entity = {
     key: key,
-    data: toDatastore(data, ['description'])
+    data: toDatastore(data, ['menu'])
   };
 
   ds.save(

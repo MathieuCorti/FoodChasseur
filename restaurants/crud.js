@@ -138,7 +138,7 @@ router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) =
     vision.textDetection({ source: { imageUri: gcsPath } })
       .then((results) => {
         const detections = results[0].fullTextAnnotation;
-//        data.menu = detections.text;
+        data.menu = detections.text;
 
         // Save the data to the database.
         getModel().create(data, (err, savedData) => {
