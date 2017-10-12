@@ -46,3 +46,23 @@ if (module === require.main) {
 }
 
 module.exports = app;
+
+/*-------------------TESTING LOGIN CODE---------------------*/
+
+// Configure the session and session storage.
+const sessionConfig = {
+  resave: false,
+  saveUninitialized: false,
+  secret: config.get('SECRET'),
+  signed: true
+};
+
+// In production use the App Engine Memcache instance to store session data,
+// otherwise fallback to the default MemoryStore in development.
+if (config.get('NODE_ENV') === 'production' && config.get('MEMCACHE_URL')) {
+  sessionConfig.store = new MemcachedStore({
+    hosts: [config.get('MEMCACHE_URL')]
+  });
+}
+
+app.use(session(sessionConfig));

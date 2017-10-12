@@ -15,6 +15,11 @@ const multer = Multer({
   }
 });
 
+/*----------login code----------*/
+const passport = require('passport');
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+/*----------login code----------*/
 const CLOUD_BUCKET = config.get('CLOUD_BUCKET');
 const storage = Storage({
   projectId: CLOUD_BUCKET
@@ -63,6 +68,7 @@ function sendUploadToGCS (req, res, next) {
 
 const router = express.Router();
 
+
 // Automatically parse request body as form data
 router.use(bodyParser.urlencoded({ extended: false }));
 
@@ -71,6 +77,8 @@ router.use((req, res, next) => {
   res.set('Content-Type', 'text/html');
   next();
 });
+
+/*---------------------------------LOGIN STUFF---------------------------------*/
 
 /**
  * GET /login
@@ -87,11 +95,34 @@ router.get('/login', (req, res) => {
  * Submits login credentials to server
  */
 router.post('/login', (req, res) => {
-  var tryUser = req.params.username, tryPass = req.body.password;
+  var tryUser = req.body.username, tryPass = req.body.password;
   console.log("body is: " + req.body);
-  console.log("usrename is:" + req.body.username + ", password is:" + req.body.password);
+  console.log("usrename is:" + tryUser + ", password is:" + req.body.password);
 });
 
+/**
+ * GET /logout
+ *
+ * Displays the login page
+ */
+router.get('/logout', (req, res) => {
+  console.log('logging out');
+  req.logout();
+  res.redirect('/');
+});
+
+
+function ensureAuthenticated(req, res, next) {
+  console.log("made it here");
+  if (req.isAuthenticated()) {
+    // req.user is available for use here
+    return next(); }
+
+  // denied. redirect to login
+  res.redirect('/')
+}
+
+/*---------------------------------LOGIN STUFF---------------------------------*/
 
 /**
  * GET /restaurants
