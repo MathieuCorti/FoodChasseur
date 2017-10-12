@@ -65,7 +65,7 @@ function list (limit, token, data, data2, cb) {
 
   var q = ds.createQuery([kind]);
   if (data != "") {
-      q.filter('restcategory', '=', data)
+      q.filter('category', '=', data)
   }
   if (data2 != "") {
       q.filter('city', '=', data2)
