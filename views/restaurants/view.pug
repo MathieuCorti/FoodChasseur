@@ -10,12 +10,23 @@ html(lang="en")
     #header
         font(color="#00AAA0", size="40") Food Hunter
         a(href="/restaurants", class='button1') Main Menu
+        a(href="#", onclick="history.go(-1)", class='button1') Go Back
     #sidebar
         .media
             .media-body
-                h2= restaurant.restname
-                p= restaurant.restcategory
-                p= restaurant.description
+                h2
+                    u= restaurant.name
+                br
+                h4 Category
+                p= restaurant.category
+                br
+                h4 Address
+                p= restaurant.lotnumber + "," + restaurant.street + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
+                a(href="http://maps.google.com/?saddr=Current+Location&daddr=" + restaurant.lotnumber + "," + restaurant.street + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode, class="button") Open in Google Maps
+                br
+                br
+                h4 Telephone number
+                p= restaurant.telnumber
         .btn-group
             a(href=`/restaurants/${restaurant.id}/edit`, class='btn btn-primary btn-sm')
                 i.glyphicon.glyphicon-edit
@@ -26,4 +37,4 @@ html(lang="en")
                 span  Delete restaurant
     #content
         h3 Menu:
-        img(src="restaurant.image", alt="Menu")
+        img(src=restaurant.imageUrl, alt="Menu")

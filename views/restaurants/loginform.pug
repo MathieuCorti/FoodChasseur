@@ -1,0 +1,32 @@
+doctype html
+html(lang="en")
+  head
+    title Register
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css", href="/styles/style.css")
+  body
+    #header
+        font(color="#00AAA0", size="40") Food Hunter
+        a(href="/restaurants", class='button1') Main Menu
+    #formcontent
+        .class2
+            .class
+                block content
+                  br
+                  h3
+                    strong
+                        u Login
+                  br
+                  form(method="POST", enctype="multipart/form-data", autocomplete="off")
+                    .form-group
+                      label(for="username") Username
+                          div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", style="width:350px;height:30px;", name="username", id="username", value=owner.username, required)
+                    .form-group
+                      label(for="password") Password
+                          div(class="col-lg-4 col-lg-offset-4")
+                            input.form-control(type="text", style="width:350px;height:30px;", name="password", id="password", value=owner.password, required)
+                    .form-group
+                        button.button3(type="submit") REGISTER

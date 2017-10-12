@@ -13,9 +13,9 @@ html(lang="en")
     #sidebar
         form(action="/restaurants/list" method="GET" autocomplete="off")
             .form-group
-                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice of Food", required)
+                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice of Food")
             .form-group
-                input.form-control(type="text2", name="usrfoodlocation", id="usrfoodlocation", placeholder="Choice of Location", required)
+                input.form-control(type="text2", name="usrfoodlocation", id="usrfoodlocation", placeholder="Choice of Location (city)")
             .form-group
                 button.button2(type="submit") SEARCH
     div
@@ -33,20 +33,21 @@ html(lang="en")
                             .media
                                 a(href=`/restaurants/${restaurant.id}`)
                                     .media-body
-                                        h5= restaurant.restname
+                                        h5= restaurant.name
                         td
-                            p= restaurant.restcategory
+                            p= restaurant.category
                         td
-                            p= restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
+                            p= restaurant.lotnumber + "," + restaurant.street + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode
                         td
-                            p= restaurant.resttelno
+                            p= restaurant.telnumber
                         td
                             #divimg
-                                a(href="http://maps.google.com/?saddr=Current+Location&daddr=" + restaurant.lotno + "," + restaurant.streetname + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode)
+                                a(href="http://maps.google.com/?saddr=Current+Location&daddr=" + restaurant.lotnumber + "," + restaurant.street + "," + restaurant.city + "," + restaurant.state + "," + restaurant.postcode)
                                     img(src="http://logonoid.com/images/google-maps-logo.png", style="width:60px;height:50px;")
 
                 if !restaurants.length
-                  p No restaurants found.
+                  h3 No restaurants found.
+                  br
 
                 if nextPageToken
                   nav

@@ -36,7 +36,7 @@ function sendUploadToGCS (req, res, next) {
     return next();
   }
 
-  const gcsname = /*Date.now() +*/ req.file.originalname;
+  const gcsname = req.file.originalname;
   const file = bucket.file(gcsname);
 
   const stream = file.createWriteStream({
@@ -89,12 +89,9 @@ router.get('/', (req, res, next) => {
  * Display a form for creating a restaurant.
  */
 router.get('/list', (req, res) => {
- console.log("Food choice : " + req.url);
  var q = url.parse(req.url, true);
- console.log("Food choice : " + q.search);
  var qdata = q.query;
- console.log("Food Query : " + qdata.usrfoodchoice);
- getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, (err, entities, cursor) => {
+ getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, qdata.usrfoodlocation, (err, entities, cursor) => {
   if (err) {
     next(err);
     return;
@@ -124,7 +121,7 @@ router.get('/add', (req, res) => {
  *
  * Create a restaurant.
  */
-router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) => {
+router.post('/add', multer.single('image'), sendUploadToGCS, (req, res, next) => {
   const data = req.body;
 
   if (req.file && req.file.cloudStoragePublicUrl) {
@@ -155,7 +152,7 @@ router.post('/add', multer.single('image'), sendUploadToGCS , (req, res, next) =
       });
   } else {
     console.log("Failed !");
-  }
+}
 });
 
 /**
@@ -169,7 +166,7 @@ router.get('/:restaurant/edit', (req, res, next) => {
       next(err);
       return;
     }
-    res.render('restaurants/form.pug', {
+    res.render('restaurants/editform.pug', {
       restaurant: entity,
       action: 'Edit'
     });
@@ -190,7 +187,7 @@ router.post('/:restaurant/edit', (req, res, next) => {
       return;
     }
     res.redirect(`${req.baseUrl}/${savedData.id}`);
-  });
+ });
 });
 
 /**
