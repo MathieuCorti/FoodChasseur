@@ -56,6 +56,29 @@ function toDatastore (obj, nonIndexed) {
   return results;
 }
 
+//gets the user if it exists
+function checkUserExists(email, password, checkCb){
+  if(email != "" && password != ""){
+    var query = ds.createQuery([kind2]);
+    query.filter('email', email);
+    query.filter('password', password);
+
+    ds.runQuery(query, (err, entities, cb) => {
+      if (err) {
+        cb(err);
+        return;
+      }
+
+      var user = entities[0];
+
+      checkCb(entities.length);
+
+    });
+  }
+  
+}
+
+
 // Lists all restaurants in the Datastore sorted alphabetically by title.
 // The ``limit`` argument determines the maximum amount of results to
 // return per page. The ``token`` argument allows requesting additional

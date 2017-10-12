@@ -83,6 +83,55 @@ router.get('/', (req, res, next) => {
  });
 //});
 
+
+/**
+ * GET /login
+ *
+ * Displays the login page
+ */
+router.get('/login', (req, res) => {
+  res.render('restaurants/loginform.pug');
+});
+
+ /**
+ * POST /login
+ *
+ * Submits login credentials to server
+ */
+router.post('/login', (req, res) => {
+  
+  var tryUser = req.body.username, tryPass = req.body.password;
+  
+  getModel().checkUserExists(tryUser,tryPass,(valid) => {
+    if(valid){
+      res.cookie('signedIn','true', { httpOnly: true, sameSite: true, signed: true });
+      res.redirect('/');
+    }
+  });
+  
+});
+
+/**
+ * GET /logout
+ *
+ * Displays the login page
+ */
+router.get('/logout', ensureAuthenticated,(req, res) => {
+  console.log('logging out');
+  res.clearCookie('signedIn');
+  res.redirect('/');
+});
+
+
+function ensureAuthenticated(req, res, next) {
+  if (req.signedCookies.signedIn==='true') {
+    return next(); 
+  }
+
+  res.redirect('/')
+}
+
+
 /**
  * GET /restaurants/list
  *
