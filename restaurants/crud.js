@@ -94,11 +94,12 @@ router.post('/login', (req, res) => {
   
   var tryUser = req.body.username, tryPass = req.body.password;
   
-  console.log(getModel().checkUserExists(tryUser,tryPass));
-  // if(test==0){
-  //   console.log("works");
-  // }
-
+  getModel().checkUserExists(tryUser,tryPass,(valid) => {
+    if(valid){
+      res.cookie('signedIn', 'true', { httpOnly: true, sameSite: true, signed: true });
+    }
+  });
+  
   res.redirect('/restaurants/login');
 });
 
@@ -107,19 +108,19 @@ router.post('/login', (req, res) => {
  *
  * Displays the login page
  */
-router.get('/logout', (req, res) => {
+router.get('/logout', ensureAuthenticated,(req, res) => {
   console.log('logging out');
-  req.logout();
+  res.clearCookie('signedIn');
   res.redirect('/');
 });
 
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    // req.user is available for use here
-    return next(); }
+  if (req.signedCookies.signedIn==='true') {
+    
+    return next(); 
+  }
 
-  // denied. redirect to login
   res.redirect('/')
 }
 

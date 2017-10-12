@@ -18,27 +18,6 @@ function fromDatastore (obj) {
   return obj;
 }
 
-// function checkUserExists(email,password, checkCb){
-//   if(email != "" && password != ""){
-//     var query = ds.createQuery([kind2]);
-//     query.filter('email', email);
-//     query.filter('password', password);
-
-//     ds.runQuery(query, (err, entities, cb) => {
-//       if (err) {
-//         cb(err);
-//         return;
-//       }
-
-//       var user = entities[0];
-
-//       return entities.length;
-
-//     });
-//   }
-  
-// }
-
 function checkUserExists(email, password, checkCb){
   if(email != "" && password != ""){
     var query = ds.createQuery([kind2]);
