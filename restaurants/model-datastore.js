@@ -10,11 +10,54 @@ const ds = Datastore({
 });
 //const kind = 'Restaurants';
 const kind = 'Restaurant';
+const kind2 = 'Users';
 
 // Translates from Datastore's entity format to app format
 function fromDatastore (obj) {
   obj.id = obj[Datastore.KEY].id;
   return obj;
+}
+
+// function checkUserExists(email,password, checkCb){
+//   if(email != "" && password != ""){
+//     var query = ds.createQuery([kind2]);
+//     query.filter('email', email);
+//     query.filter('password', password);
+
+//     ds.runQuery(query, (err, entities, cb) => {
+//       if (err) {
+//         cb(err);
+//         return;
+//       }
+
+//       var user = entities[0];
+
+//       return entities.length;
+
+//     });
+//   }
+  
+// }
+
+function checkUserExists(email, password, checkCb){
+  if(email != "" && password != ""){
+    var query = ds.createQuery([kind2]);
+    query.filter('email', email);
+    query.filter('password', password);
+
+    ds.runQuery(query, (err, entities, cb) => {
+      if (err) {
+        cb(err);
+        return;
+      }
+
+      var user = entities[0];
+
+      checkCb(entities.length);
+
+    });
+  }
+  
 }
 
 // Translates from the application's format to the datastore's
@@ -144,5 +187,6 @@ module.exports = {
   update,
   delete: _delete,
   list,
+  checkUserExists,
 };
 // [END exports]

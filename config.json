@@ -1,9 +1,5 @@
 {
   "GCLOUD_PROJECT": "foodchasseur",
-  "DATA_BACKEND": "datastore",
-  "OAUTH2_CLIENT_ID": "27772244433-p43dgtc37upmlp5c6rhur7dfq75umdhu.apps.googleusercontent.com",
-	"OAUTH2_CLIENT_SECRET": "zxujUNHHmGcSBKqaA8joBX_4",
-	"OAUTH2_CALLBACK": "http://localhost:8080/auth/google/callback",
-	"MEMCACHE_URL": "memcached-16219.c14.us-east-1-3.ec2.cloud.redislabs.com:16219"
+  "DATA_BACKEND": "datastore"
 
 }

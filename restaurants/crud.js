@@ -3,6 +3,7 @@
 const url = require('url');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const Vision = require('@google-cloud/vision');
 const vision = Vision();
 const config = require('../config');
@@ -15,11 +16,6 @@ const multer = Multer({
   }
 });
 
-/*----------login code----------*/
-const passport = require('passport');
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-/*----------login code----------*/
 const CLOUD_BUCKET = config.get('CLOUD_BUCKET');
 const storage = Storage({
   projectId: CLOUD_BUCKET
@@ -95,9 +91,15 @@ router.get('/login', (req, res) => {
  * Submits login credentials to server
  */
 router.post('/login', (req, res) => {
+  
   var tryUser = req.body.username, tryPass = req.body.password;
-  console.log("body is: " + req.body);
-  console.log("usrename is:" + tryUser + ", password is:" + req.body.password);
+  
+  console.log(getModel().checkUserExists(tryUser,tryPass));
+  // if(test==0){
+  //   console.log("works");
+  // }
+
+  res.redirect('/restaurants/login');
 });
 
 /**
@@ -113,7 +115,6 @@ router.get('/logout', (req, res) => {
 
 
 function ensureAuthenticated(req, res, next) {
-  console.log("made it here");
   if (req.isAuthenticated()) {
     // req.user is available for use here
     return next(); }
