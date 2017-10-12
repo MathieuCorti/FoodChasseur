@@ -13,7 +13,9 @@ html(lang="en")
     #sidebar
         form(action="/restaurants/list" autocomplete="off")
             .form-group
-                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice of Food")
+                input.form-control(type="text1", name="usrmeal", id="usrmeal", placeholder="Choice a specific meal")
+            .form-group
+                input.form-control(type="text1", name="usrfoodchoice", id="usrfoodchoice", placeholder="Choice a type of food")
             .form-group
                 input.form-control(type="text2", name="usrfoodlocation", id="usrfoodlocation", placeholder="Choice of Location (city)")
             .form-group

@@ -91,7 +91,7 @@ router.get('/', (req, res, next) => {
 router.get('/list', (req, res) => {
  var q = url.parse(req.url, true);
  var qdata = q.query;
- getModel().list(10, req.query.pageToken, qdata.usrfoodchoice, qdata.usrfoodlocation, (err, entities, cursor) => {
+ getModel().list(10, req.query.pageToken, qdata, (err, entities, cursor) => {
   if (err) {
     next(err);
     return;

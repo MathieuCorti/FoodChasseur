@@ -61,14 +61,14 @@ function toDatastore (obj, nonIndexed) {
 // return per page. The ``token`` argument allows requesting additional
 // pages. The callback is invoked with ``(err, restaurants, nextPageToken)``.
 // [START list]
-function list (limit, token, data, data2, cb) {
+function list (limit, token, data, cb) {
 
   var q = ds.createQuery([kind]);
-  if (data != "") {
-      q.filter('category', '=', data)
+  if (data.usrfoodchoice != "") {
+      q.filter('category', '=', data.usrfoodchoice)
   }
-  if (data2 != "") {
-      q.filter('city', '=', data2)
+  if (data.usrfoodlocation != "") {
+      q.filter('city', '=', data.usrfoodlocation)
   }
 
   q.limit(limit).start(token);
@@ -78,8 +78,19 @@ function list (limit, token, data, data2, cb) {
       cb(err);
       return;
     }
+
+    let restaurantsMap = entities.map(fromDatastore);
+
+    for (var key = 0; key < restaurantsMap.length; key++) {
+      if (restaurantsMap[key]["menu"].indexOf(data.usrmeal.toUpperCase()) === -1) {
+        console.log("Restaurant " + restaurantsMap[key]["name"] + " don't have " + data.usrmeal + " in the menu.");
+        restaurantsMap.splice(key, 1);
+        key--;
+      }
+    }
+
     const hasMore = nextQuery.moreResults !== Datastore.NO_MORE_RESULTS ? nextQuery.endCursor : false;
-    cb(null, entities.map(fromDatastore), hasMore);
+    cb(null, restaurantsMap, hasMore);
   });
 }
 // [END list]
