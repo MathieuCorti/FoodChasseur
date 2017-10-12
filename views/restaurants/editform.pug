@@ -19,7 +19,7 @@ html(lang="en")
                     strong
                         u Register My Restaurant
                   br
-                  form(method="POST", enctype="multipart/form-data", autocomplete="off")
+                  form(method="POST", autocomplete="off")
                     .form-group
                       label(for="name") Restaurant Name
                           div(class="col-lg-4 col-lg-offset-4")
@@ -48,7 +48,7 @@ html(lang="en")
                       label(for="postcode") Restaurant Postcode
                          div(class="col-lg-4 col-lg-offset-4")
                             input.form-control(type="text", placeholder="Postcode", style="width:350px;height:30px;", name="postcode", id="postcode", value=restaurant.postcode)
-                    .form-group
+                    .form-group(style="display: none !important; visibility: hidden !important;")
                       label(for="image") Menu Image
                              div(class="col-lg-4 col-lg-offset-4")
                                 input.form-control(type="file",  style="width:350px;height:40px;", name="image", id="image", value=restaurant.image)
@@ -65,4 +65,4 @@ html(lang="en")
                          div(class="col-lg-4 col-lg-offset-4")
                             input.form-control(type="text", style="width:350px;height:30px;", name="telnumber", id="telnumber", value=restaurant.telnumber)
                     .form-group
-                        button.button3(type="submit") REGISTER
+                        button.button3(type="submit") SAVE
