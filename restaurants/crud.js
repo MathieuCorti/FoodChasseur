@@ -67,14 +67,14 @@ const router = express.Router();
 
 // Automatically parse request body as form data
 router.use(bodyParser.urlencoded({ extended: false }));
+// router.use(cookieParser());
+router.use(cookieParser('HAHAHAHAHAHAHAHA'));
 
 // Set Content-Type for all responses for these routes
 router.use((req, res, next) => {
   res.set('Content-Type', 'text/html');
   next();
 });
-
-/*---------------------------------LOGIN STUFF---------------------------------*/
 
 /**
  * GET /login
@@ -96,11 +96,11 @@ router.post('/login', (req, res) => {
   
   getModel().checkUserExists(tryUser,tryPass,(valid) => {
     if(valid){
-      res.cookie('signedIn', 'true', { httpOnly: true, sameSite: true, signed: true });
+      res.cookie('signedIn','true', { httpOnly: true, sameSite: true, signed: true });
+      res.redirect('/');
     }
   });
   
-  res.redirect('/restaurants/login');
 });
 
 /**
@@ -117,14 +117,11 @@ router.get('/logout', ensureAuthenticated,(req, res) => {
 
 function ensureAuthenticated(req, res, next) {
   if (req.signedCookies.signedIn==='true') {
-    
     return next(); 
   }
 
   res.redirect('/')
 }
-
-/*---------------------------------LOGIN STUFF---------------------------------*/
 
 /**
  * GET /restaurants
