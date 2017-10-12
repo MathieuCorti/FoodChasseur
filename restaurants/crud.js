@@ -21,7 +21,6 @@ const storage = Storage({
 });
 const bucket = storage.bucket(CLOUD_BUCKET);
 
-
 function getPublicUrl (filename) {
   return `https://storage.googleapis.com/${CLOUD_BUCKET}/${filename}`;
 }
@@ -72,6 +71,27 @@ router.use((req, res, next) => {
   res.set('Content-Type', 'text/html');
   next();
 });
+
+/**
+ * GET /login
+ *
+ * Displays the login page
+ */
+router.get('/login', (req, res) => {
+  res.render('restaurants/loginform.pug');
+});
+
+ /**
+ * POST /login
+ *
+ * Submits login credentials to server
+ */
+router.post('/login', (req, res) => {
+  var tryUser = req.params.username, tryPass = req.body.password;
+  console.log("body is: " + req.body);
+  console.log("usrename is:" + req.body.username + ", password is:" + req.body.password);
+});
+
 
 /**
  * GET /restaurants
