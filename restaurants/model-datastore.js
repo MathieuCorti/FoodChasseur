@@ -10,6 +10,7 @@ const ds = Datastore({
 });
 //const kind = 'Restaurants';
 const kind = 'Restaurant';
+const kind2 = 'Users';
 
 // Translates from Datastore's entity format to app format
 function fromDatastore (obj) {
@@ -178,5 +179,6 @@ module.exports = {
   update,
   delete: _delete,
   list,
+  checkUserExists,
 };
 // [END exports]

@@ -17,6 +17,7 @@ app.use('/api/restaurants', require('./restaurants/api'));
 
 // css
 app.use("/styles", express.static(__dirname + '/styles'));
+app.use("/restaurants",express.static(__dirname + '/restaurants'));
 
 // Redirect root to /restaurants
 app.get('/', (req, res) => {

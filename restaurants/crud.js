@@ -3,6 +3,7 @@
 const url = require('url');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const Vision = require('@google-cloud/vision');
 const vision = Vision();
 const config = require('../config');
@@ -66,6 +67,7 @@ const router = express.Router();
 
 // Automatically parse request body as form data
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(cookieParser('thisissecret'));
 
 // Set Content-Type for all responses for these routes
 router.use((req, res, next) => {
@@ -79,8 +81,10 @@ router.use((req, res, next) => {
  * Display a page of restaurants (up to ten at a time).
  */
 router.get('/', (req, res, next) => {
- res.render('base.pug');
- });
+  res.render('base.pug',{
+    isLoggedIn: isLoggedIn(req)
+  });
+});
 //});
 
 
@@ -90,6 +94,10 @@ router.get('/', (req, res, next) => {
  * Displays the login page
  */
 router.get('/login', (req, res) => {
+  if(req.signedCookies.signedIn==='true'){
+
+  }
+
   res.render('restaurants/loginform.pug');
 });
 
@@ -128,9 +136,12 @@ function ensureAuthenticated(req, res, next) {
     return next(); 
   }
 
-  res.redirect('/')
+  res.redirect('/restaurants/login');
 }
 
+function isLoggedIn(req){
+  return req.signedCookies.signedIn==='true';
+}
 
 /**
  * GET /restaurants/list
@@ -148,7 +159,8 @@ router.get('/list', (req, res) => {
   console.log("Number of restaurants on render : " + entities.length);
   res.render('restaurants/list.pug', {
     restaurants: entities,
-    nextPageToken: cursor
+    nextPageToken: cursor,
+    isLoggedIn: isLoggedIn(req)
   });
  });
 });
@@ -158,10 +170,11 @@ router.get('/list', (req, res) => {
  *
  * Display a form for creating a restaurant.
  */
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated,(req, res) => {
   res.render('restaurants/form.pug', {
     restaurant: {},
-    action: 'Add'
+    action: 'Add',
+    isLoggedIn: isLoggedIn(req)
   });
 });
 
@@ -170,7 +183,7 @@ router.get('/add', (req, res) => {
  *
  * Create a restaurant.
  */
-router.post('/add', multer.single('image'), sendUploadToGCS, (req, res, next) => {
+router.post('/add', ensureAuthenticated, multer.single('image'), sendUploadToGCS, (req, res, next) => {
   const data = req.body;
 
   if (req.file && req.file.cloudStoragePublicUrl) {
@@ -209,7 +222,7 @@ router.post('/add', multer.single('image'), sendUploadToGCS, (req, res, next) =>
  *
  * Display a restaurant for editing.
  */
-router.get('/:restaurant/edit', (req, res, next) => {
+router.get('/:restaurant/edit', ensureAuthenticated,(req, res, next) => {
   getModel().read(req.params.restaurant, (err, entity) => {
     if (err) {
       next(err);
@@ -217,7 +230,8 @@ router.get('/:restaurant/edit', (req, res, next) => {
     }
     res.render('restaurants/editform.pug', {
       restaurant: entity,
-      action: 'Edit'
+      action: 'Edit',
+      isLoggedIn: isLoggedIn(req)
     });
   });
 });
@@ -227,7 +241,7 @@ router.get('/:restaurant/edit', (req, res, next) => {
  *
  * Update a restaurant.
  */
-router.post('/:restaurant/edit', (req, res, next) => {
+router.post('/:restaurant/edit', ensureAuthenticated,(req, res, next) => {
   const data = req.body;
 
   getModel().update(req.params.restaurant, data, (err, savedData) => {
@@ -252,6 +266,7 @@ router.get('/:restaurant', (req, res, next) => {
     }
     res.render('restaurants/view.pug', {
       restaurant: entity
+      isLoggedIn: isLoggedIn(req)
     });
   });
 });
@@ -261,7 +276,7 @@ router.get('/:restaurant', (req, res, next) => {
  *
  * Delete a restaurant.
  */
-router.get('/:restaurant/delete', (req, res, next) => {
+router.get('/:restaurant/delete', ensureAuthenticated,(req, res, next) => {
   getModel().delete(req.params.restaurant, (err) => {
     if (err) {
       next(err);

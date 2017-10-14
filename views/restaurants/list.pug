@@ -8,8 +8,12 @@ html(lang="en")
     link(rel="stylesheet", type="text/css", href="/styles/style.css")
   body
     #header
-      font(color="#00AAA0", size="40") Food Hunter
-      a(href="/restaurants/add", class='button1') Register My Restaurant
+        font(color="#00AAA0", size="40") Food Hunter
+        a(href="/restaurants/add", class='button1') Register My Restaurant
+        if isLoggedIn
+            a(href="/restaurants/logout", class='button1') Logout
+        else
+            a(href="/restaurants/login", class='button1') Login
     #sidebar
         form(action="/restaurants/list" method="GET" autocomplete="off")
             .form-group

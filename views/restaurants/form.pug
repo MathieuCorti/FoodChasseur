@@ -10,6 +10,10 @@ html(lang="en")
     #header
         font(color="#00AAA0", size="40") Food Hunter
         a(href="#", onclick="history.go(-1)", class='button1') Go Back
+        if isLoggedIn
+            a(href="/restaurants/logout", class='button1') Logout
+        else
+            a(href="/restaurants/login", class='button1') Login
     #formcontent
         .class2
             .class
