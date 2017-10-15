@@ -265,7 +265,7 @@ router.get('/:restaurant', (req, res, next) => {
       return;
     }
     res.render('restaurants/view.pug', {
-      restaurant: entity
+      restaurant: entity,
       isLoggedIn: isLoggedIn(req)
     });
   });
